@@ -1,0 +1,288 @@
+/* Digger Game - Main Stylesheet */
+/* Mobile-first design following cozy game principles */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Color Palette - Warm, earthy tones with vibrant gem highlights */
+    --color-background: #f5f1e6;
+    --color-surface: #e6dfcf;
+    --color-primary: #8b7355;
+    --color-secondary: #5a8a72;
+    --color-accent: #c86558;
+    --color-text: #3a3226;
+    --color-gem-blue: #5290c3;
+    --color-gem-purple: #9b6dbb;
+    --color-gem-green: #61b877;
+    --color-gem-red: #d8585b;
+
+    /* Spacing Variables */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Size Variables */
+    --touch-target-min: 44px; /* Minimum size for touch targets */
+    --border-radius: 12px;
+    --modal-width: 90%;
+    --grid-cell-size: 60px;
+}
+
+html, body {
+    font-family: 'Arial', sans-serif;
+    height: 100%;
+    width: 100%;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    overflow: hidden;
+    touch-action: manipulation; /* Improves touch responsiveness */
+}
+
+/* Game Container */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: var(--spacing-sm);
+}
+
+/* Header Styles */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm);
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-md);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-title {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+}
+
+.resource-display {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.resource-counter {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+/* Main Game Area Styles */
+.game-area {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.digging-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: var(--spacing-xs);
+    padding: var(--spacing-md);
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 500px;
+}
+
+.grid-cell {
+    background-color: var(--color-primary);
+    border-radius: 8px;
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.grid-cell:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Controls Section */
+.game-controls {
+    display: flex;
+    justify-content: space-around;
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.control-button {
+    background-color: var(--color-secondary);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.control-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.modal-content {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    width: var(--modal-width);
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--color-primary);
+}
+
+.modal-header h2 {
+    color: var(--color-primary);
+    font-size: 1.3rem;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text);
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: var(--spacing-md);
+}
+
+/* Notification Area */
+.notification-area {
+    position: fixed;
+    bottom: var(--spacing-lg);
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.notification {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    max-width: 90%;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: notification-appear 0.3s forwards, notification-disappear 0.3s 2.7s forwards;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+@keyframes notification-appear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes notification-disappear {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Tablets (portrait) */
+@media (min-width: 600px) {
+    :root {
+        --grid-cell-size: 70px;
+    }
+
+    .game-title {
+        font-size: 1.8rem;
+    }
+
+    .control-button {
+        font-size: 1.1rem;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+}
+
+/* Larger tablets and desktops */
+@media (min-width: 900px) {
+    :root {
+        --grid-cell-size: 80px;
+        --modal-width: 60%;
+    }
+
+    .game-container {
+        max-width: 900px;
+        padding: var(--spacing-md);
+    }
+
+    .game-title {
+        font-size: 2rem;
+    }
+}
