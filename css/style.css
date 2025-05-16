@@ -113,6 +113,8 @@ html, body {
     border-radius: 8px;
     min-height: var(--touch-target-min);
     min-width: var(--touch-target-min);
+    height: var(--grid-cell-size);
+    width: var(--grid-cell-size);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,11 +122,30 @@ html, body {
     user-select: none;
     transition: background-color 0.2s, transform 0.1s;
     box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    font-size: 1.5rem;
 }
 
 .grid-cell:active {
     transform: translateY(2px);
     box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.grid-cell::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.grid-cell:active::after {
+    opacity: 1;
 }
 
 /* Controls Section */
@@ -254,6 +275,72 @@ html, body {
     }
 }
 
+/* Inventory and Shop Styles */
+.inventory-section,
+.shop-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.inventory-section h3,
+.shop-section h3 {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-primary);
+}
+
+.resources-list,
+.items-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.inventory-item {
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    min-height: var(--touch-target-min);
+}
+
+.item-icon {
+    font-size: 1.5rem;
+}
+
+/* Cell breaking and animation effects */
+.broken {
+    background-color: var(--color-surface) !important;
+}
+
+.gem-reveal,
+.resource-reveal {
+    animation: reveal 0.5s forwards;
+    opacity: 0;
+    transform: scale(0);
+    display: inline-block;
+    font-size: 1.8rem;
+    z-index: 2;
+}
+
+.cell-particles {
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    opacity: 0.7;
+}
+
+/* Responsive design */
 /* Tablets (portrait) */
 @media (min-width: 600px) {
     :root {
@@ -267,6 +354,11 @@ html, body {
     .control-button {
         font-size: 1.1rem;
         padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .digging-grid {
+        grid-template-columns: repeat(5, var(--grid-cell-size));
+        grid-template-rows: repeat(5, var(--grid-cell-size));
     }
 }
 
@@ -283,6 +375,22 @@ html, body {
     }
 
     .game-title {
+        font-size: 2rem;
+    }
+
+    .digging-grid {
+        gap: var(--spacing-sm);
+    }
+}
+
+/* Touch optimization - increase all touch targets */
+@media (max-width: 480px) {
+    .control-button {
+        padding: var(--spacing-md) var(--spacing-sm);
+        min-width: calc(var(--touch-target-min) * 1.2);
+    }
+
+    .close-button {
         font-size: 2rem;
     }
 }
