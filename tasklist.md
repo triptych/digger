@@ -21,7 +21,7 @@
 ## 📊 Resource System
 - [x] 💎 Design different gem types with varying rarities
 - [x] 🧰 Create basic resources (stone, dirt, ore, etc.)
-- [ ] 🎁 Implement special items discovery
+- [x] 🎁 Implement special items discovery
 - [x] 🎲 Set up random generation algorithms for resources
 - [x] 📈 Balance resource distribution rates
 - [x] 🏷️ Create resource collection notifications

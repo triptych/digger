@@ -19,6 +19,44 @@ const gameState = {
         power: 1, // Base digging power
         level: 1  // Tool level
     },
+    // Define special items and their properties
+    specialItems: {
+        magnet: {
+            emoji: "🧲",
+            name: "Magnet",
+            color: "#cc5500",
+            description: "Attracts nearby gems when digging",
+            rarity: 0.8
+        },
+        bomb: {
+            emoji: "💣",
+            name: "Mining Bomb",
+            color: "#333333",
+            description: "Breaks surrounding rocks when used",
+            rarity: 0.85
+        },
+        compass: {
+            emoji: "🧭",
+            name: "Gem Compass",
+            color: "#5f4b8b",
+            description: "Points to nearby gems",
+            rarity: 0.9
+        },
+        pickaxe: {
+            emoji: "⛏️",
+            name: "Lucky Pickaxe",
+            color: "#ffd700",
+            description: "Temporarily increases gem find chance",
+            rarity: 0.95
+        },
+        chest: {
+            emoji: "🧰",
+            name: "Treasure Chest",
+            color: "#8b4513",
+            description: "Contains multiple resources",
+            rarity: 0.75
+        }
+    },
     // Define resource types and their properties
     resourceTypes: {
         stone: {
@@ -228,13 +266,59 @@ function determineResourceForCell(index) {
     // Calculate gem probability (increases with depth)
     const gemProbability = 0.05 + (depth * 0.02);
 
-    if (Math.random() < gemProbability) {
+    // Calculate special item probability (rare, increases very slightly with depth)
+    const specialItemProbability = 0.01 + (depth * 0.005);
+
+    // Determine cell content
+    if (Math.random() < specialItemProbability) {
+        // This cell will have a special item
+        return selectRandomSpecialItem();
+    } else if (Math.random() < gemProbability) {
         // This cell will have a gem, determine which type
         return selectRandomGem();
     } else {
         // This cell will have a regular resource
         return selectRandomResource();
     }
+}
+
+/**
+ * Select a random special item based on rarity
+ * @returns {Object} Selected special item
+ */
+function selectRandomSpecialItem() {
+    const specialItems = Object.keys(gameState.specialItems);
+
+    // Total up the inverse rarity values to create weighted probabilities
+    // (lower rarity value = more common)
+    let totalWeight = 0;
+    const weights = [];
+
+    for (const itemType of specialItems) {
+        const inverseRarity = 1 / gameState.specialItems[itemType].rarity;
+        weights.push(inverseRarity);
+        totalWeight += inverseRarity;
+    }
+
+    // Select a special item type using weighted probability
+    let random = Math.random() * totalWeight;
+    for (let i = 0; i < specialItems.length; i++) {
+        if (random < weights[i]) {
+            return {
+                type: 'special',
+                variant: specialItems[i],
+                ...gameState.specialItems[specialItems[i]]
+            };
+        }
+        random -= weights[i];
+    }
+
+    // Fallback (should rarely happen)
+    return {
+        type: 'special',
+        variant: 'chest',
+        ...gameState.specialItems.chest
+    };
 }
 
 /**
@@ -469,6 +553,23 @@ function processResourceReveal(cell) {
 
         // Add special effect for gems
         addGlowEffect(cell.element, content.color);
+    } else if (content.type === 'special') {
+        // It's a special item
+        revealElement.classList.add('special-item-reveal');
+        revealElement.style.color = content.color;
+
+        // Add to inventory
+        gameState.inventory.push({
+            type: 'special',
+            variant: content.variant,
+            ...content
+        });
+
+        // Show notification with rarity sparkles
+        showNotification(`✨ Found a rare ${content.name}! ${content.emoji} ✨`);
+
+        // Add special effect for special items (more pronounced than gems)
+        addSpecialItemEffect(cell.element, content);
     } else {
         // It's a regular resource
         revealElement.classList.add('resource-reveal');
@@ -484,6 +585,98 @@ function processResourceReveal(cell) {
 
     // Add the reveal element to the cell
     cell.element.appendChild(revealElement);
+}
+
+/**
+ * Add special visual effects for special item discovery
+ * @param {HTMLElement} element - The cell element
+ * @param {Object} item - The special item data
+ */
+function addSpecialItemEffect(element, item) {
+    // Create glowing pulse effect
+    addGlowEffect(element, item.color);
+
+    // Create sparkles around the cell
+    createSparkles(element);
+
+    // Add subtle shake to surrounding cells
+    const index = parseInt(element.getAttribute('data-index'));
+    const gridSize = gameState.gridSize;
+
+    // Calculate surrounding cell indices
+    const surroundingIndices = [];
+    const row = Math.floor(index / gridSize);
+    const col = index % gridSize;
+
+    // Check all 8 surrounding cells
+    for (let r = Math.max(0, row - 1); r <= Math.min(row + 1, gridSize - 1); r++) {
+        for (let c = Math.max(0, col - 1); c <= Math.min(col + 1, gridSize - 1); c++) {
+            const neighborIndex = r * gridSize + c;
+            if (neighborIndex !== index) {
+                surroundingIndices.push(neighborIndex);
+            }
+        }
+    }
+
+    // Apply effect to surrounding cells
+    surroundingIndices.forEach(idx => {
+        const cell = document.querySelector(`.grid-cell[data-index="${idx}"]`);
+        if (cell) {
+            cell.classList.add('special-neighbor-pulse');
+            setTimeout(() => {
+                cell.classList.remove('special-neighbor-pulse');
+            }, 1000);
+        }
+    });
+}
+
+/**
+ * Create sparkle effects when discovering a special item
+ * @param {HTMLElement} element - The cell element
+ */
+function createSparkles(element) {
+    // Create container for sparkles
+    const sparkleContainer = document.createElement('div');
+    sparkleContainer.className = 'sparkle-container';
+    element.appendChild(sparkleContainer);
+
+    // Create multiple sparkles
+    const numSparkles = 15;
+    const sparkleCharacters = ['✨', '⭐', '🌟', '💫', '⚡'];
+
+    for (let i = 0; i < numSparkles; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+
+        // Random sparkle character
+        sparkle.textContent = sparkleCharacters[Math.floor(Math.random() * sparkleCharacters.length)];
+
+        // Random position around the cell
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 20 + Math.random() * 60;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+
+        sparkle.style.transform = `translate(${x}px, ${y}px) scale(${0.5 + Math.random() * 0.5})`;
+        sparkle.style.opacity = 0;
+
+        // Add to container
+        sparkleContainer.appendChild(sparkle);
+
+        // Animate the sparkle
+        setTimeout(() => {
+            sparkle.style.opacity = 1;
+
+            setTimeout(() => {
+                sparkle.style.opacity = 0;
+            }, 500 + Math.random() * 1000);
+        }, Math.random() * 500);
+    }
+
+    // Remove sparkles after animation completes
+    setTimeout(() => {
+        sparkleContainer.remove();
+    }, 2000);
 }
 
 /**
@@ -698,12 +891,12 @@ function updateInventoryModal() {
     resourcesSection.appendChild(resourcesList);
     inventoryItems.appendChild(resourcesSection);
 
-    // Add placeholder for future items
+    // Add special items section
     const itemsSection = document.createElement('div');
     itemsSection.className = 'inventory-section';
 
     const itemsTitle = document.createElement('h3');
-    itemsTitle.textContent = 'Items';
+    itemsTitle.textContent = 'Special Items';
     itemsSection.appendChild(itemsTitle);
 
     const itemsList = document.createElement('div');
@@ -711,10 +904,29 @@ function updateInventoryModal() {
 
     if (gameState.inventory.length === 0) {
         const emptyMessage = document.createElement('p');
-        emptyMessage.textContent = 'No items yet. Visit the shop to purchase items!';
+        emptyMessage.textContent = 'No special items yet. Keep digging to discover rare items!';
         itemsList.appendChild(emptyMessage);
     } else {
-        // Future implementation: display inventory items
+        // Display special items from inventory
+        gameState.inventory.forEach((item, index) => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'inventory-item special-inventory-item';
+            itemElement.innerHTML = `
+                <span class="item-icon" style="color: ${item.color}">${item.emoji}</span>
+                <div class="item-details">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-description">${item.description}</div>
+                </div>
+            `;
+
+            // Add item use functionality
+            itemElement.addEventListener('click', () => {
+                showNotification(`Item use coming soon: ${item.name}`);
+                // Future implementation: useSpecialItem(item, index);
+            });
+
+            itemsList.appendChild(itemElement);
+        });
     }
 
     itemsSection.appendChild(itemsList);
@@ -841,7 +1053,7 @@ document.head.insertAdjacentHTML('beforeend', `
         background-color: var(--color-surface) !important;
     }
 
-    .gem-reveal, .resource-reveal {
+    .gem-reveal, .resource-reveal, .special-item-reveal {
         animation: reveal 0.5s forwards;
         opacity: 0;
         transform: scale(0);
@@ -850,10 +1062,30 @@ document.head.insertAdjacentHTML('beforeend', `
         z-index: 2;
     }
 
+    .special-item-reveal {
+        animation: special-reveal 0.8s forwards;
+        font-size: 2rem;
+    }
+
     @keyframes reveal {
         to {
             opacity: 1;
             transform: scale(1);
+        }
+    }
+
+    @keyframes special-reveal {
+        0% {
+            opacity: 0;
+            transform: scale(0) rotate(0deg);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.3) rotate(10deg);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
         }
     }
 
@@ -893,6 +1125,63 @@ document.head.insertAdjacentHTML('beforeend', `
         0% { opacity: 0.5; }
         50% { opacity: 0.8; }
         100% { opacity: 0.5; }
+    }
+
+    .sparkle-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    .sparkle {
+        position: absolute;
+        font-size: 1rem;
+        transition: opacity 0.8s, transform 1.2s;
+    }
+
+    .special-neighbor-pulse {
+        animation: neighbor-pulse 1s;
+    }
+
+    @keyframes neighbor-pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+
+    .special-inventory-item {
+        position: relative;
+        background-color: var(--color-background);
+        border: 1px solid var(--color-primary);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .special-inventory-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .item-details {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .item-name {
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .item-description {
+        font-size: 0.8rem;
+        opacity: 0.8;
     }
 
     .dig-deeper-overlay {
