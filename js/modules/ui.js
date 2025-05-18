@@ -7,6 +7,7 @@ import { gameState } from './gameState.js';
 
 // Will be set by the init function
 let shopModal = null;
+let infoModal = null;
 let notificationArea = null;
 
 /**
@@ -15,7 +16,11 @@ let notificationArea = null;
  */
 function initUI(elements) {
     shopModal = elements.shopModal;
+    infoModal = elements.infoModal;
     notificationArea = elements.notificationArea;
+
+    // Initialize stats
+    updateGameStats();
 }
 
 /**
@@ -71,6 +76,19 @@ function updateShopModal() {
 }
 
 /**
+ * Update game stats in the info modal
+ */
+function updateGameStats() {
+    // Get the current state
+    const state = gameState;
+
+    // Update the stats in the info modal
+    document.getElementById('blocks-mined').textContent = state.stats.blocksMined;
+    document.getElementById('max-depth').textContent = state.stats.maxDepth;
+    document.getElementById('total-resources').textContent = state.stats.totalResources;
+}
+
+/**
  * Set up event listeners for game controls
  * @param {Object} elements - Object containing UI elements and button handlers
  */
@@ -78,6 +96,7 @@ function setupEventListeners(elements) {
     const {
         inventoryButton,
         shopButton,
+        infoButton,
         digDeeperButton,
         handleInventoryOpen,
         handleDigDeeper
@@ -86,6 +105,7 @@ function setupEventListeners(elements) {
     // Set tooltip titles for game control buttons
     inventoryButton.setAttribute('title', 'Open your inventory to see collected resources and items');
     shopButton.setAttribute('title', 'Visit the shop to purchase upgrades and special items');
+    infoButton.setAttribute('title', 'View game information and stats');
     digDeeperButton.setAttribute('title', 'Dig deeper to the next level after clearing current layer');
 
     // Inventory button
@@ -94,6 +114,12 @@ function setupEventListeners(elements) {
     // Shop button
     shopButton.addEventListener('click', () => {
         openModal(shopModal);
+    });
+
+    // Info button
+    infoButton.addEventListener('click', () => {
+        updateGameStats();
+        openModal(infoModal);
     });
 
     // Dig deeper button
@@ -312,5 +338,6 @@ export {
     openModal,
     closeModal,
     setupEventListeners,
-    addGameStyles
+    addGameStyles,
+    updateGameStats
 };

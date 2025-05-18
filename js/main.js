@@ -25,9 +25,11 @@ let domElements = {
     stoneCounter: null,
     inventoryButton: null,
     shopButton: null,
+    infoButton: null,
     digDeeperButton: null,
     inventoryModal: null,
     shopModal: null,
+    infoModal: null,
     notificationArea: null
 };
 
@@ -42,9 +44,11 @@ function initGame() {
         stoneCounter: document.getElementById('stone-counter'),
         inventoryButton: document.getElementById('inventory-button'),
         shopButton: document.getElementById('shop-button'),
+        infoButton: document.getElementById('info-button'),
         digDeeperButton: document.getElementById('dig-deeper-button'),
         inventoryModal: document.getElementById('inventory-modal'),
         shopModal: document.getElementById('shop-modal'),
+        infoModal: document.getElementById('info-modal'),
         notificationArea: document.getElementById('notification-area')
     };
 
@@ -53,6 +57,7 @@ function initGame() {
 
     initUI({
         shopModal: domElements.shopModal,
+        infoModal: domElements.infoModal,
         notificationArea: domElements.notificationArea
     });
 
@@ -62,6 +67,7 @@ function initGame() {
     setupEventListeners({
         inventoryButton: domElements.inventoryButton,
         shopButton: domElements.shopButton,
+        infoButton: domElements.infoButton,
         digDeeperButton: domElements.digDeeperButton,
         handleInventoryOpen: openInventoryModal,
         handleDigDeeper: handleDigDeeper

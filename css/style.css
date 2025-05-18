@@ -65,6 +65,7 @@ html, body {
     border-radius: var(--border-radius);
     margin-bottom: var(--spacing-md);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .game-title {
@@ -292,6 +293,73 @@ html, body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: var(--spacing-md);
+}
+
+.info-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+}
+
+.info-button:hover {
+    background-color: var(--color-accent);
+}
+
+.info-button:active {
+    transform: scale(0.95);
+}
+
+.info-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.info-section h3 {
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.info-section p {
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.4;
+}
+
+.info-section a {
+    color: var(--color-gem-blue);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.info-section a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
+.stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--color-background);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius);
 }
 
 .inventory-item {

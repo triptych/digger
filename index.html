@@ -22,6 +22,7 @@
                     <div class="resource-counter" id="dirt-counter">🟤 0</div>
                     <div class="resource-counter" id="ore-counter">🧱 0</div>
                 </div>
+                <button class="info-button" id="info-button" aria-label="Game information">?</button>
             </header>
 
             <!-- Main Game Area -->
@@ -60,6 +61,39 @@
                     </div>
                     <div class="modal-body" id="shop-items">
                         <!-- Shop items will be generated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Modal (Hidden by default) -->
+            <div class="modal" id="info-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Game Info ℹ️</h2>
+                        <button class="close-button">&times;</button>
+                    </div>
+                    <div class="modal-body" id="info-content">
+                        <div class="info-section">
+                            <h3>About Digger</h3>
+                            <p>Digger is a cozy mining and collecting mobile game where you dig for resources and discover treasures!</p>
+                        </div>
+                        <div class="info-section">
+                            <h3>Game Stats</h3>
+                            <div class="stats-list" id="game-stats">
+                                <div class="stat-item">Blocks Mined:
+                                    <span id="blocks-mined">0</span></div>
+                                <div class="stat-item">Depth Reached:
+                                    <span id="max-depth">1</span></div>
+                                <div class="stat-item">Total Resources:
+                                    <span id="total-resources">0</span></div>
+                            </div>
+                        </div>
+                        <div class="info-section">
+                            <h3>Created By</h3>
+                            <p>Made with ❤️ by
+                                <a href="https://andreww.xyz" target="_blank" rel="noopener noreferrer">Andrew Wooldridge</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

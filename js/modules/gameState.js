@@ -19,6 +19,12 @@ const gameState = {
         power: 1, // Base digging power
         level: 1  // Tool level
     },
+    // Track game statistics
+    stats: {
+        blocksMined: 0,
+        maxDepth: 1,
+        totalResources: 0
+    },
     // Define special items and their properties
     specialItems: {
         magnet: {
@@ -108,11 +114,11 @@ const gameState = {
 };
 
 /**
- * Get a property from the game state
- * @param {string} property - The property to get
- * @returns {*} - The value of the property
+ * Get the game state or a specific property
+ * @param {string} property - The property to get (optional)
+ * @returns {*} - The game state or specified property
  */
-function getGameState(property) {
+function getState(property) {
     return property ? gameState[property] : gameState;
 }
 
@@ -121,9 +127,45 @@ function getGameState(property) {
  * @param {string} property - The property to update
  * @param {*} value - The new value
  */
-function updateGameState(property, value) {
+function updateState(property, value) {
     if (property && property in gameState) {
         gameState[property] = value;
+    }
+}
+
+/**
+ * Update game statistics
+ * @param {string} stat - The statistic to update
+ * @param {number} value - The value to add to the current stat
+ */
+function updateStats(stat, value = 1) {
+    if (stat && stat in gameState.stats) {
+        gameState.stats[stat] += value;
+    }
+}
+
+/**
+ * Track a block being mined
+ */
+function trackBlockMined() {
+    updateStats('blocksMined');
+}
+
+/**
+ * Track resources being collected
+ * @param {number} amount - The number of resources collected
+ */
+function trackResourceCollected(amount = 1) {
+    updateStats('totalResources', amount);
+}
+
+/**
+ * Update the maximum depth reached
+ * @param {number} depth - The current depth
+ */
+function updateMaxDepth(depth) {
+    if (depth > gameState.stats.maxDepth) {
+        gameState.stats.maxDepth = depth;
     }
 }
 
@@ -141,4 +183,13 @@ function applyDifficultyScaling() {
     // (This is already implemented in resource selection)
 }
 
-export { gameState, getGameState, updateGameState, applyDifficultyScaling };
+export {
+    gameState,
+    getState,
+    updateState,
+    applyDifficultyScaling,
+    updateStats,
+    trackBlockMined,
+    trackResourceCollected,
+    updateMaxDepth
+};

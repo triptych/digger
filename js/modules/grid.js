@@ -3,7 +3,7 @@
  * Handles grid generation and cell functionality
  */
 
-import { gameState } from './gameState.js';
+import { gameState, trackBlockMined, trackResourceCollected, updateMaxDepth } from './gameState.js';
 import { determineResourceForCell } from './resources.js';
 
 // Will be set by the init function
@@ -176,6 +176,9 @@ function breakCell(cell) {
     // Create particle effects
     createBreakParticles(cell.element);
 
+    // Track block mining in stats
+    trackBlockMined();
+
     // Process the cell's content
     processResourceReveal(cell);
 
@@ -197,6 +200,9 @@ function processResourceReveal(cell) {
     // Create reveal element
     const revealElement = document.createElement('span');
     revealElement.textContent = content.emoji;
+
+    // Track resource collection
+    trackResourceCollected();
 
     if (content.type === 'gem') {
         // It's a gem
@@ -528,6 +534,9 @@ function handleDigDeeper() {
 
         // Apply difficulty scaling
         window.gameStateModule.applyDifficultyScaling();
+
+        // Update max depth stat
+        updateMaxDepth(gameState.currentDepth);
 
         window.uiModule.showNotification(`Digging deeper to level ${gameState.currentDepth}! 🔽`);
 
