@@ -10,13 +10,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 - Mobile-first responsive layout
 - Touch controls optimization
-- Digging grid system implementation
-- Resource collection system
-- Inventory management
-- Shop and upgrade system
-- Layer progression mechanics
 - Visual and audio enhancements
 - See [tasklist.md](tasklist.md) for complete planned features
+
+## [0.2.0] - 2025-05-18
+
+### Added
+- Implemented digging grid system
+- Added resource collection system
+- Created inventory management
+- Implemented shop system (placeholder)
+- Added layer progression mechanics
+
+### Changed
+- Refactored JavaScript code to use ES6 modules
+- Created modular code structure for better maintainability:
+  - gameState.js: Game state and configuration
+  - resources.js: Resource generation and management
+  - grid.js: Grid generation and cell interaction
+  - ui.js: UI elements and notifications
+  - inventory.js: Inventory system
+  - main.js: Entry point that connects all modules
+- Updated the game initialization process
+- Improved file organization
+
+### Removed
+- Deleted monolithic JavaScript files (game.js, inventory.js)
+
+### Technical
+- Implemented ES6 module pattern
+- Used proper import/export syntax
+- Created clean separation of concerns
 
 ## [0.1.0] - 2025-05-16
 

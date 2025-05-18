@@ -1,0 +1,319 @@
+/* Digger Game - Inventory System Styles */
+/* Mobile-first design for inventory user interface */
+
+/* Inventory capacity indicator */
+.inventory-capacity {
+    margin-bottom: var(--spacing-md);
+    width: 100%;
+}
+
+.capacity-bar {
+    height: 8px;
+    background-color: var(--color-surface);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: var(--spacing-xs);
+}
+
+.capacity-fill {
+    height: 100%;
+    background-color: var(--color-secondary);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.capacity-text {
+    font-size: 0.9rem;
+    text-align: right;
+    color: var(--color-text);
+    opacity: 0.8;
+}
+
+/* Category tabs */
+.inventory-categories {
+    display: flex;
+    overflow-x: auto;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    gap: var(--spacing-xs);
+}
+
+.category-tab {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s, transform 0.1s;
+    min-height: var(--touch-target-min);
+    display: flex;
+    align-items: center;
+}
+
+.category-tab.active {
+    background-color: var(--color-secondary);
+    color: white;
+}
+
+.category-tab:hover {
+    background-color: var(--color-surface);
+}
+
+.category-tab.active:hover {
+    background-color: var(--color-secondary);
+}
+
+.category-tab span {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+/* Sorting options */
+.inventory-sorting {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+}
+
+.sort-button {
+    background-color: var(--color-background);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+    min-height: 32px;
+}
+
+.sort-button.active {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* Inventory grid */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.empty-inventory-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--spacing-lg);
+    color: var(--color-text);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Inventory items */
+.inventory-grid-item {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    min-height: 100px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    position: relative;
+}
+
+.inventory-grid-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.item-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--color-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-xs);
+    position: relative;
+}
+
+.item-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.quantity-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background-color: var(--color-accent);
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.item-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.item-name {
+    font-weight: bold;
+    margin-bottom: var(--spacing-xs);
+}
+
+.item-brief-desc {
+    font-size: 0.8rem;
+    color: var(--color-text);
+    opacity: 0.8;
+}
+
+/* Rarity indicators */
+.legendary-item {
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    border: 1px solid gold;
+}
+
+.rare-item {
+    box-shadow: 0 0 6px rgba(138, 43, 226, 0.4);
+    border: 1px solid blueviolet;
+}
+
+.uncommon-item {
+    box-shadow: 0 0 4px rgba(65, 105, 225, 0.3);
+    border: 1px solid royalblue;
+}
+
+.common-item {
+    border: 1px solid var(--color-primary);
+}
+
+/* Item details modal */
+.item-details-content {
+    max-width: 400px;
+}
+
+.item-details-main {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.item-details-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.item-details-info {
+    flex-grow: 1;
+}
+
+.item-property {
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    flex-direction: column;
+}
+
+.property-label {
+    font-size: 0.8rem;
+    color: var(--color-text);
+    opacity: 0.7;
+}
+
+.property-value {
+    font-weight: bold;
+}
+
+.item-description {
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+}
+
+.item-description h3 {
+    margin-bottom: var(--spacing-xs);
+    font-size: 1rem;
+    color: var(--color-primary);
+}
+
+.item-description p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.item-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: flex-end;
+    margin-top: var(--spacing-md);
+}
+
+.item-action-button {
+    background-color: var(--color-secondary);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    min-height: var(--touch-target-min);
+    min-width: 80px;
+}
+
+.item-action-button.use-button {
+    background-color: var(--color-secondary);
+}
+
+.item-action-button.discard-button {
+    background-color: var(--color-accent);
+}
+
+.item-action-button:active {
+    transform: translateY(2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .inventory-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    }
+
+    .item-details-content {
+        width: 95%;
+    }
+}
+
+@media (min-width: 600px) {
+    .inventory-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .category-tab {
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+}
+
+@media (min-width: 900px) {
+    .inventory-grid {
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    }
+}
