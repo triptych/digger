@@ -27,12 +27,12 @@
 - [x] 🏷️ Create resource collection notifications
 
 ## 📦 Inventory System
-- [ ] 🎒 Design inventory UI
-- [ ] 📊 Implement inventory space limitations
-- [ ] 🗃️ Create resource categorization
-- [ ] 🔍 Add item inspection functionality
-- [ ] 🧮 Implement resource counting
-- [ ] 🌈 Design visual representation of collected items
+- [x] 🎒 Design inventory UI
+- [x] 📊 Implement inventory space limitations
+- [x] 🗃️ Create resource categorization
+- [x] 🔍 Add item inspection functionality
+- [x] 🧮 Implement resource counting
+- [x] 🌈 Design visual representation of collected items
 
 ## 🏪 Shop System
 - [ ] 🛒 Design shop UI

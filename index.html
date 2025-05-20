@@ -7,11 +7,24 @@
         <title>Digger - Cozy Mining Game</title>
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/inventory.css">
+        <link rel="stylesheet" href="css/shop.css">
         <!-- Preload touch area images if needed -->
         <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
     </head>
     <body>
-        <div class="game-container">
+        <!-- Splash Screen (Shown by default) -->
+        <div class="splash-screen" id="splash-screen">
+            <div class="splash-content">
+                <h1 class="splash-title">Digger</h1>
+                <p class="splash-subtitle">A cozy mining adventure</p>
+                <div class="splash-buttons">
+                    <button class="splash-button" id="continue-game-button">Continue Game</button>
+                    <button class="splash-button" id="new-game-button">New Game</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-container" style="display: none;">
             <!-- Header Section -->
             <header class="game-header">
                 <h1 class="game-title">Digger</h1>
@@ -86,7 +99,13 @@
                                     <span id="max-depth">1</span></div>
                                 <div class="stat-item">Total Resources:
                                     <span id="total-resources">0</span></div>
+                                <div class="stat-item">Last Saved:
+                                    <span id="last-save-time">Never</span></div>
                             </div>
+                        </div>
+
+                        <div class="info-section">
+                            <button class="save-button" id="save-button">💾 Save Game</button>
                         </div>
                         <div class="info-section">
                             <h3>Created By</h3>

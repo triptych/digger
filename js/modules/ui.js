@@ -66,13 +66,8 @@ function closeModal(modal) {
  * Update shop modal content
  */
 function updateShopModal() {
-    const shopItems = document.getElementById('shop-items');
-    shopItems.innerHTML = '';
-
-    // Placeholder for shop items
-    const shopMessage = document.createElement('p');
-    shopMessage.textContent = 'Shop coming soon! Check back later for upgrades and special items.';
-    shopItems.appendChild(shopMessage);
+    // Shop update is now handled by the shop module
+    window.shopModule.updateShopDisplay();
 }
 
 /**
@@ -86,6 +81,27 @@ function updateGameStats() {
     document.getElementById('blocks-mined').textContent = state.stats.blocksMined;
     document.getElementById('max-depth').textContent = state.stats.maxDepth;
     document.getElementById('total-resources').textContent = state.stats.totalResources;
+
+    // Update last save time if available
+    const saveTimeElement = document.getElementById('last-save-time');
+    if (saveTimeElement) {
+        const lastSaveTime = localStorage.getItem('digger_last_save_time');
+        saveTimeElement.textContent = lastSaveTime ? new Date(parseInt(lastSaveTime)).toLocaleTimeString() : 'Never';
+    }
+}
+
+/**
+ * Handle manual save game button
+ */
+function handleSaveGame() {
+    if (window.saveManagerModule && window.saveManagerModule.saveGame()) {
+        // Record save time
+        localStorage.setItem('digger_last_save_time', Date.now().toString());
+        updateGameStats();
+        showNotification('Game saved successfully! 💾');
+    } else {
+        showNotification('Failed to save game!');
+    }
 }
 
 /**
@@ -113,7 +129,7 @@ function setupEventListeners(elements) {
 
     // Shop button
     shopButton.addEventListener('click', () => {
-        openModal(shopModal);
+        window.shopModule.openShopModal();
     });
 
     // Info button
@@ -121,6 +137,12 @@ function setupEventListeners(elements) {
         updateGameStats();
         openModal(infoModal);
     });
+
+    // Save game button (in the info modal)
+    const saveButton = document.getElementById('save-button');
+    if (saveButton) {
+        saveButton.addEventListener('click', handleSaveGame);
+    }
 
     // Dig deeper button
     digDeeperButton.addEventListener('click', handleDigDeeper);
@@ -339,5 +361,6 @@ export {
     closeModal,
     setupEventListeners,
     addGameStyles,
-    updateGameStats
+    updateGameStats,
+    handleSaveGame
 };

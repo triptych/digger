@@ -1,0 +1,296 @@
+/* Digger Game - Shop System Styles */
+/* Mobile-first design for shop user interface */
+
+/* Shop currency display */
+.shop-currency {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-md);
+}
+
+.currency-amount {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.currency-icon {
+    font-size: 1.5rem;
+}
+
+.currency-value {
+    color: var(--color-primary);
+}
+
+.currency-label {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    opacity: 0.7;
+}
+
+/* Shop categories (same style as inventory categories for consistency) */
+.shop-categories {
+    display: flex;
+    overflow-x: auto;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    gap: var(--spacing-xs);
+}
+
+.shop-categories .category-tab {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s, transform 0.1s;
+    min-height: var(--touch-target-min);
+    display: flex;
+    align-items: center;
+}
+
+.shop-categories .category-tab.active {
+    background-color: var(--color-secondary);
+    color: white;
+}
+
+.shop-categories .category-tab:hover {
+    background-color: var(--color-surface);
+}
+
+.shop-categories .category-tab.active:hover {
+    background-color: var(--color-secondary);
+}
+
+.shop-categories .category-tab span {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+/* Shop grid */
+.shop-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.empty-shop-message {
+    text-align: center;
+    padding: var(--spacing-lg);
+    color: var(--color-text);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Shop item card */
+.shop-grid-item {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    gap: var(--spacing-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.shop-grid-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Item details */
+.shop-grid-item .item-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--color-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-xs);
+    position: relative;
+}
+
+.shop-grid-item .item-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.level-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background-color: var(--color-secondary);
+    color: white;
+    border-radius: 10px;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.shop-grid-item .item-info {
+    flex-grow: 1;
+}
+
+.shop-grid-item .item-name {
+    font-weight: bold;
+    margin-bottom: var(--spacing-xs);
+    font-size: 1.1rem;
+}
+
+.shop-grid-item .item-description {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.remaining-purchases {
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    font-style: italic;
+}
+
+/* Purchase button and cost display */
+.item-cost-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--spacing-sm);
+}
+
+.item-cost {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.cost-icon {
+    font-size: 1.2rem;
+}
+
+.cost-value {
+    font-weight: bold;
+    color: var(--color-primary);
+}
+
+.purchase-button {
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    min-height: var(--touch-target-min);
+    min-width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.purchase-button:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+.purchase-button.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Confirmation modal styles */
+.confirmation-content {
+    max-width: 350px;
+}
+
+.confirmation-message {
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+.confirmation-description {
+    margin-top: var(--spacing-sm);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.confirmation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+}
+
+.confirmation-button {
+    min-width: 100px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    min-height: var(--touch-target-min);
+}
+
+.confirmation-button.confirm {
+    background-color: var(--color-accent);
+    color: white;
+}
+
+.confirmation-button.cancel {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-primary);
+}
+
+.confirmation-button:active {
+    transform: translateY(2px);
+}
+
+/* Responsive adjustments */
+@media (min-width: 480px) {
+    .shop-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .shop-grid-item {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .shop-grid-item .item-icon-wrapper {
+        margin-right: var(--spacing-sm);
+        margin-bottom: 0;
+    }
+
+    .item-cost-container {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: var(--spacing-sm);
+        margin-left: var(--spacing-sm);
+    }
+}
+
+@media (min-width: 600px) {
+    .shop-categories .category-tab {
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+
+    .confirmation-content {
+        max-width: 400px;
+    }
+}
